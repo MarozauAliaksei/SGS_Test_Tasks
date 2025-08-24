@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Обработчик видео</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Загрузка и обработка видео</h1>
+        
+        <div class="upload-container" id="uploadContainer">
+            <input type="file" id="fileInput" accept="video/*" hidden>
+            <div class="drop-area" id="dropArea">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23666'%3E%3Cpath d='M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z'/%3E%3C/svg%3E" alt="Загрузка" class="upload-icon">
+                <p>Перетащите видео файл сюда или</p>
+                <button class="browse-btn" onclick="document.getElementById('fileInput').click()">
+                    Выберите файл
+                </button>
+                <p class="file-info">Поддерживаемые форматы: MP4, AVI, MOV, MKV</p>
+            </div>
+        </div>
+
+        <div class="progress-container" id="progressContainer" style="display: none;">
+            <div class="file-info">
+                <span id="fileName"></span>
+                <span id="fileSize"></span>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            
+            <div class="progress-info">
+                <span id="progressPercentage">0%</span>
+                <span id="progressStatus">Ожидание...</span>
+            </div>
+
+            <div class="actions">
+                <button class="cancel-btn" id="cancelBtn">Отмена</button>
+            </div>
+        </div>
+
+        <div class="result-container" id="resultContainer" style="display: none;">
+            <div class="success-message">
+                <span class="checkmark">✓</span>
+                <h3>Обработка завершена!</h3>
+                <p>Видео успешно обработано и готово к скачиванию</p>
+            </div>
+            <button class="download-btn" id="downloadBtn">Скачать результат</button>
+            <button class="new-upload-btn" onclick="resetUploader()">Загрузить новый файл</button>
+        </div>
+
+        <div class="error-container" id="errorContainer" style="display: none;">
+            <div class="error-message">
+                <span class="error-icon">⚠</span>
+                <h3>Произошла ошибка</h3>
+                <p id="errorText"></p>
+            </div>
+            <button class="retry-btn" onclick="resetUploader()">Попробовать снова</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
