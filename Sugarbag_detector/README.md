@@ -58,7 +58,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 
 ### 3. Настройка веб-приложения
-bash
+bash```
 
 cd ../WebApp
 python -m venv venv
@@ -66,7 +66,7 @@ python -m venv venv
 # Linux/macOS: source venv/bin/activate
 # Windows: .\venv\Scripts\activate
 pip install -r requirements.txt
-
+```
 ## 🧠 Обучение модели YOLO (Можно пропустить если не хотим обучать заново)
 Подготовка данных
 
