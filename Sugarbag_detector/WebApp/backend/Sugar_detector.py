@@ -91,7 +91,11 @@ def draw_label_with_icon(frame, x1, y1, label="Bag of sugar", icon=None):
 
 
 def process_video(input_path: str, output_path: str) -> bool:
-    model = YOLO("best.pt")
+    try:
+        model = YOLO("best.pt")
+    except Exception as e:
+        print("Ошибка загрузки модели:", e)
+        return False
 
     LINE_START = (210, 107)
     LINE_END = (404, 135)
@@ -174,10 +178,6 @@ def process_video(input_path: str, output_path: str) -> bool:
         frame = draw_animations(frame)
 
         out.write(frame)
-        cv2.imshow("Conveyor", frame)
-
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
 
     cap.release()
     out.release()

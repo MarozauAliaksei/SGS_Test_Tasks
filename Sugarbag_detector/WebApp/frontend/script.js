@@ -1,3 +1,5 @@
+const backendUrl = 'http://localhost:8000'; // локально через браузер
+
 let currentFileId = '';
 let currentFilename = '';
 
@@ -25,7 +27,7 @@ async function uploadFile() {
     formData.append('file', file);
 
     try {
-        const response = await fetch('http://127.0.0.1:8000/upload', {
+        const response = await fetch(`${backendUrl}/upload`, {
             method: 'POST',
             body: formData
         });
@@ -37,11 +39,10 @@ async function uploadFile() {
 
             setStatus('✅ Файл успешно обработан!', 'success');
             downloadBtn.style.display = 'block';
-
         } else {
-            setStatus('❌ Ошибка при загрузке файла', 'error');
+            const errText = await response.text();
+            setStatus(`❌ Ошибка при загрузке файла: ${errText}`, 'error');
         }
-
     } catch (error) {
         setStatus('❌ Ошибка подключения к серверу', 'error');
         console.error('Error:', error);
@@ -56,46 +57,31 @@ function downloadFile() {
         return;
     }
 
-    setStatus('⬇️ Начинаем скачивание...', 'processing');
-
-    // Открываем ссылку для скачивания в новом окне
-    const downloadUrl = `http://127.0.0.1:8000/download/${currentFileId}`;
+    const downloadUrl = `${backendUrl}/download/${currentFileId}`;
     window.open(downloadUrl, '_blank');
-
-    // Через секунду возвращаем обычный статус
-    setTimeout(() => {
-        setStatus('✅ Файл готов к скачиванию', 'success');
-    }, 1000);
+    setStatus('✅ Файл готов к скачиванию', 'success');
 }
 
 async function checkConnection() {
     try {
-        const response = await fetch('http://127.0.0.1:8000/');
-        if (response.ok) {
-            console.log('✅ Сервер работает');
-        }
+        const response = await fetch(`${backendUrl}/`);
+        if (!response.ok) setStatus('❌ Сервер вернул ошибку', 'error');
     } catch (error) {
         setStatus('❌ Сервер не отвечает. Запустите бэкенд!', 'error');
-        console.log('❌ Сервер не отведает');
     }
 }
 
-// Инициализация при загрузке страницы
 function init() {
-    // Назначение обработчиков событий
     document.getElementById('uploadBtn').addEventListener('click', uploadFile);
     document.getElementById('downloadBtn').addEventListener('click', downloadFile);
 
-    // Показываем имя выбранного файла
-    document.getElementById('fileInput').addEventListener('change', function(e) {
+    document.getElementById('fileInput').addEventListener('change', e => {
         if (e.target.files[0]) {
             setStatus(`📁 Выбран файл: ${e.target.files[0].name}`);
         }
     });
 
-    // Проверим при загрузке страницы
     checkConnection();
 }
 
-// Запуск инициализации после загрузки DOM
 document.addEventListener('DOMContentLoaded', init);

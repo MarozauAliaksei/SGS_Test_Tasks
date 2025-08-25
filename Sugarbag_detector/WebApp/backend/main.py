@@ -2,7 +2,6 @@ from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 import os
-import shutil
 import uuid
 
 app = FastAPI()
@@ -76,7 +75,7 @@ async def download_file(file_id: str):
 
 @app.get("/")
 async def root():
-    return {"message": "Server is running!"}
+    return {"message": "Server is running!!!"}
 
 
 if __name__ == "__main__":
