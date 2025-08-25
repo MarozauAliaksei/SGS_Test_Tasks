@@ -58,7 +58,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 
 ### 3. Настройка веб-приложения
-bash```
+```bash
 
 cd ../WebApp
 python -m venv venv
